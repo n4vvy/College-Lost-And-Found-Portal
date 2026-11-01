@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Poppins Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <title>Report Lost Item</title>
+
+
+    <style>
+
+        /* =====================================================
+           GLOBAL
+        ===================================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f8fafc;
+            color: #111;
+            min-height: 100vh;
+        }
+
+
+        /* =====================================================
+           FLOATING NAVBAR
+        ===================================================== */
+
+        nav {
+
+            position: relative;
+
+            z-index: 20;
+
+            width: calc(100% - 40px);
+
+            margin: 20px auto 0;
+
+            min-height: 64px;
+
+            padding: 10px 12px 10px 22px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            background: #080808;
+
+            border: 1px solid rgba(255,255,255,0.08);
+
+            border-radius: 18px;
+
+            box-shadow:
+                0 8px 25px rgba(0,0,0,0.12),
+                0 2px 5px rgba(0,0,0,0.08);
+        }
+
+
+        nav h2 {
+
+            color: #fff;
+
+            font-size: 20px;
+
+            font-weight: 600;
+
+            letter-spacing: -0.4px;
+
+            white-space: nowrap;
+        }
+
+
+        nav div {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 5px;
+        }
+
+
+        nav a {
+
+            position: relative;
+
+            color: #d8d8d8;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            font-weight: 500;
+
+            padding: 10px 14px;
+
+            border-radius: 11px;
+
+            transition:
+                background 0.2s ease,
+                color 0.2s ease,
+                transform 0.2s ease;
+        }
+
+
+        nav a:hover {
+
+            background: #222;
+
+            color: white;
+
+            transform: translateY(-1px);
+        }
+
+
+        /* =====================================================
+           MAIN / GRID BACKGROUND
+        ===================================================== */
+
+        main {
+
+            min-height: calc(100vh - 104px);
+
+            position: relative;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: flex-start;
+
+            padding: 50px 20px;
+
+            overflow: hidden;
+
+            background: #f8fafc;
+        }
+
+
+        main::before {
+
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+
+            z-index: 0;
+
+            background-image:
+
+                linear-gradient(
+                    to right,
+                    #e2e8f0 1px,
+                    transparent 1px
+                ),
+
+                linear-gradient(
+                    to bottom,
+                    #e2e8f0 1px,
+                    transparent 1px
+                );
+
+            background-size: 20px 30px;
+
+
+            -webkit-mask-image:
+                radial-gradient(
+                    ellipse 70% 60% at 50% 0%,
+                    #000 60%,
+                    transparent 100%
+                );
+
+
+            mask-image:
+                radial-gradient(
+                    ellipse 70% 60% at 50% 0%,
+                    #000 60%,
+                    transparent 100%
+                );
+        }
+
+
+        /* =====================================================
+           FORM CARD
+        ===================================================== */
+
+        .form-container {
+
+            position: relative;
+
+            z-index: 1;
+
+            width: 100%;
+
+            max-width: 600px;
+
+            background: rgba(255,255,255,0.96);
+
+            padding: 35px;
+
+            border: 1px solid #e2e8f0;
+
+            border-radius: 16px;
+
+            box-shadow:
+                0 10px 30px rgba(0,0,0,0.08);
+        }
+
+
+        .form-container h2 {
+
+            font-size: 25px;
+
+            text-align: left;
+
+            margin-bottom: 8px;
+        }
+
+
+        .form-subtitle {
+
+            text-align: left;
+
+            color: #64748b;
+
+            font-size: 14px;
+
+            margin-bottom: 25px;
+
+            line-height: 1.6;
+        }
+
+
+        /* =====================================================
+           FORM
+        ===================================================== */
+
+        label {
+
+            display: block;
+
+            margin-top: 18px;
+
+            margin-bottom: 7px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            color: #222;
+        }
+
+
+        input,
+        textarea {
+
+            width: 100%;
+
+            padding: 13px 14px;
+
+            border: 1px solid #cbd5e1;
+
+            border-radius: 8px;
+
+            background: white;
+
+            font-family: 'Poppins', sans-serif;
+
+            font-size: 15px;
+
+            outline: none;
+
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+
+        input:focus,
+        textarea:focus {
+
+            border-color: #111;
+
+            box-shadow:
+                0 0 0 3px rgba(0,0,0,0.08);
+        }
+
+
+        textarea {
+
+            height: 120px;
+
+            resize: vertical;
+
+            line-height: 1.5;
+        }
+
+
+        input[type="date"] {
+
+            color: #333;
+        }
+
+
+        /* =====================================================
+           BUTTON
+        ===================================================== */
+
+        button {
+
+            width: 100%;
+
+            margin-top: 28px;
+
+            padding: 14px;
+
+            background: #111;
+
+            color: white;
+
+            border: none;
+
+            border-radius: 8px;
+
+            font-family: 'Poppins', sans-serif;
+
+            font-size: 16px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition:
+                background 0.2s ease,
+                transform 0.2s ease;
+        }
+
+
+        button:hover {
+
+            background: #333;
+
+            transform: translateY(-1px);
+        }
+
+
+        button:active {
+
+            transform: translateY(0);
+        }
+
+
+        /* =====================================================
+           MESSAGE
+        ===================================================== */
+
+        #message {
+
+            margin-top: 22px;
+
+            text-align: center;
+
+            font-size: 14px;
+
+            font-weight: 500;
+
+            line-height: 1.7;
+        }
+
+
+        .match {
+
+            color: #2e7d32;
+        }
+
+
+        .waiting {
+
+            color: #ef6c00;
+        }
+
+
+        .error {
+
+            color: #c62828;
+        }
+
+
+        /* =====================================================
+           TABLET
+        ===================================================== */
+
+        @media (max-width: 768px) {
+
+            nav {
+
+                width: calc(100% - 24px);
+
+                margin-top: 12px;
+
+                padding: 12px 14px;
+
+                flex-direction: column;
+
+                gap: 10px;
+
+                border-radius: 16px;
+            }
+
+
+            nav h2 {
+
+                font-size: 19px;
+            }
+
+
+            nav div {
+
+                gap: 3px;
+            }
+
+
+            nav a {
+
+                font-size: 12px;
+
+                padding: 8px 10px;
+            }
+
+
+            main {
+
+                min-height: calc(100vh - 105px);
+
+                padding: 35px 18px;
+            }
+
+
+            .form-container {
+
+                padding: 28px 24px;
+            }
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media (max-width: 480px) {
+
+            nav {
+
+                width: calc(100% - 18px);
+
+                margin-top: 9px;
+
+                border-radius: 15px;
+            }
+
+
+            nav h2 {
+
+                font-size: 18px;
+            }
+
+
+            nav div {
+
+                width: 100%;
+
+                justify-content: center;
+
+                flex-wrap: wrap;
+
+                gap: 2px;
+            }
+
+
+            nav a {
+
+                font-size: 11px;
+
+                padding: 7px 9px;
+            }
+
+
+            main {
+
+                padding: 25px 12px;
+            }
+
+
+            .form-container {
+
+                padding: 24px 18px;
+
+                border-radius: 12px;
+            }
+
+
+            .form-container h2 {
+
+                font-size: 22px;
+            }
+
+
+            .form-subtitle {
+
+                font-size: 13px;
+            }
+
+
+            input,
+            textarea {
+
+                font-size: 14px;
+            }
+
+
+            button {
+
+                font-size: 15px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         FLOATING NAVBAR
+    ===================================================== -->
+
+    <nav>
+
+        <h2>
+            College Lost & Found
+        </h2>
+
+
+        <div>
+
+            <a href="/">
+                Home
+            </a>
+
+            <a href="/lost">
+                Report Lost
+            </a>
+
+            <a href="/found">
+                Report Found
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =====================================================
+         MAIN
+    ===================================================== -->
+
+    <main>
+
+        <div class="form-container">
+
+
+            <h2>
+                Lost Something?
+            </h2>
+
+
+            <p class="form-subtitle">
+                Submit the details below so the system can look for a possible match.
+            </p>
+
+
+            <form id="lostItemForm">
+
+
+                <label>
+                    Item Name
+                </label>
+
+                <input
+                    type="text"
+                    id="itemName"
+                    required
+                >
+
+
+                <label>
+                    Description / Specifications
+                </label>
+
+                <textarea
+                    id="description"
+                    placeholder="Add colour, model, marks, scratches, stickers, unique features, etc."
+                    required
+                ></textarea>
+
+
+                <label>
+                    Location
+                </label>
+
+                <input
+                    type="text"
+                    id="location"
+                    required
+                >
+
+
+                <label>
+                    Date Lost
+                </label>
+
+                <input
+                    type="date"
+                    id="date"
+                    required
+                >
+
+
+                <label>
+                    Contact
+                </label>
+
+                <input
+                    type="text"
+                    id="contact"
+                    required
+                >
+
+
+                <button type="submit">
+                    Report Lost Item
+                </button>
+
+
+            </form>
+
+
+            <div id="message"></div>
+
+
+        </div>
+
+    </main>
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ===================================================== -->
+
+    <script>
+
+        const API_URL =
+            "https://college-lost-found-61k7.onrender.com";
+
+
+        document
+            .getElementById("lostItemForm")
+            .addEventListener(
+                "submit",
+                async function(event) {
+
+                    event.preventDefault();
+
+
+                    const message =
+                        document.getElementById("message");
+
+
+                    /* =============================
+                       CREATE ITEM
+                    ============================= */
+
+                    const item = {
+
+                        type: "lost",
+
+                        itemName:
+                            document
+                                .getElementById("itemName")
+                                .value,
+
+                        description:
+                            document
+                                .getElementById("description")
+                                .value,
+
+                        location:
+                            document
+                                .getElementById("location")
+                                .value,
+
+                        date:
+                            document
+                                .getElementById("date")
+                                .value,
+
+                        contact:
+                            document
+                                .getElementById("contact")
+                                .value
+                    };
+
+
+                    try {
+
+                        message.className = "";
+
+                        message.textContent =
+                            "🔍 Checking for matching found items...";
+
+
+                        /* =============================
+                           SEND TO SERVER
+                        ============================= */
+
+                        const response =
+                            await fetch(
+                                `${API_URL}/api/items`,
+                                {
+                                    method: "POST",
+
+                                    headers: {
+                                        "Content-Type":
+                                            "application/json"
+                                    },
+
+                                    body:
+                                        JSON.stringify(item)
+                                }
+                            );
+
+
+                        const data =
+                            await response.json();
+
+
+                        /* =============================
+                           RESPONSE
+                        ============================= */
+
+                        if (response.ok) {
+
+
+                            if (data.matched) {
+
+                                message.className =
+                                    "match";
+
+
+                                message.innerHTML =
+                                    `
+                                    ✅ <strong>Possible match found!</strong><br>
+                                    Match score: ${data.matchScore}%<br>
+                                    The system found a matching found-item report.
+                                    `;
+
+                            }
+
+
+                            else {
+
+                                message.className =
+                                    "waiting";
+
+
+                                message.innerHTML =
+                                    `
+                                    ⏳ <strong>No strong match yet.</strong><br>
+                                    Your lost item has been saved.<br>
+                                    It will remain waiting for a matching found-item report.
+                                    `;
+
+                            }
+
+
+                            document
+                                .getElementById("lostItemForm")
+                                .reset();
+
+                        }
+
+
+                        else {
+
+                            message.className =
+                                "error";
+
+
+                            message.textContent =
+                                "❌ Error: " +
+                                (
+                                    data.error ||
+                                    "Something went wrong."
+                                );
+
+                        }
+
+
+                    }
+
+
+                    catch (error) {
+
+                        message.className =
+                            "error";
+
+
+                        message.textContent =
+                            "❌ Could not connect to the server.";
+
+
+                        console.error(
+                            "Error:",
+                            error
+                        );
+
+                    }
+
+                }
+            );
+
+    </script>
+
+
+</body>
+</html>
